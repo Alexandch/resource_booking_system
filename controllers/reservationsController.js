@@ -21,6 +21,8 @@ export async function createReservation(req, res) {
         VALUES ($1, $2, $3, $4, 'approved', $5)
     `, [user_id, resource_id, start_time, end_time, purpose]);
 
+    await delCache('cache:analytics:bookings_per_day');
+
     res.json({ message: "Reservation created" });
     }catch(error){
         console.error("Reservation error:", error);
